@@ -1,0 +1,17 @@
+version: '3'
+services:
+  jenkins_server:
+    image: "registry.jala.info/devops/jenkins/jenkins:2.107.3-alpine"
+    ports:
+      - "8080:8080"
+      - "5000:5000"
+      - "50000:50000"
+    volumes:
+      - ./jenkins:/var/jenkins_home
+jenkins_slave:
+  image: "registry.jala.info/devops/jenkins/jnlp-slave:3.27-1-alpine"
+  environment:
+    - JENKINS_URL=http://jenkins_server:50000
+    - JENKINS_AGENT_WORKDIR=/var/jenkins_home
+    - JENKINS_SECRET
+    - JENKINS_AGENT_NAME=slave2
