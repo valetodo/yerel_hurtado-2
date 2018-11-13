@@ -15,3 +15,4 @@ jenkins_slave:
     - JENKINS_AGENT_WORKDIR=/var/jenkins_home
     - JENKINS_SECRET
     - JENKINS_AGENT_NAME=slave2
+    
