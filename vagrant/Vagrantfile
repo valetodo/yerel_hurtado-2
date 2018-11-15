@@ -24,10 +24,11 @@ config.vm.define 'linux-server-10' do |s|
     os.flavor = 'f1.desktop.small'
     override.vm.synced_folder '.', '/vagrant', disabled: true
   s.vm.provision "shell", inline: <<-SHELL
-    cd /opt
-    sudo wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u45-b14/jdk-8u45-linux-x64.tar.gz"
-    sudo tar -xzvf jdk-8u45-linux-x64.tar.gz
-    sudo rm -rf jdk-8u45-linux-x64.tar.gz
+    add-apt-repository ppa:openjdk-r/ppa -y
+    apt-get update
+    echo "\n----- Installing Apache and Java 8 ------\n"
+    apt-get -y install apache2 openjdk-8-jdk
+    update-alternatives --config java
   SHELL
   end
  end
