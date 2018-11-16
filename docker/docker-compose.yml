@@ -19,7 +19,7 @@ services:
   gocd_gent:
     image: "registry.jala.info/devops/gocd/gocd-agent-alpine-3.7:v18.1.0"
     environment:
-      - GO_SERVER_URL: https://gocd_server:8154/go
+      - GO_SERVER_URL:https://gocd_server:8154/go
     volumes:
       - ./godata_agent:/godata
       - ./go_agent:/home/go
