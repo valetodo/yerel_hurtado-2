@@ -1,7 +1,7 @@
 version: '3'
 services:
   jenkins_server:
-    image: registry.jala.info/devops/jenkinsci/blueocean:1.5.0
+    image: "registry.jala.info/devops/jenkinsci/blueocean:1.5.0"
     ports:
       - "8080:8080"
       - "5000:5000"
@@ -9,22 +9,25 @@ services:
     restart: always
     volumes:
       - ./jenkins:/var/jenkins_home
+
   gocd_server:
     image: "registry.jala.info/devops/gocd/gocd-server:v18.1.0"
     ports:
-      - '8153:8153'
-      - '8154:8154'
+      - "8153:8153"
+      - "8154:8154"
     volumes:
       - ./godata_server:/godata
       - ./go_server:/home/go
-  gocd_gent:
+
+  gocd_agent:
     image: "registry.jala.info/devops/gocd/gocd-agent-alpine-3.7:v18.1.0"
     environment:
       - GO_SERVER_URL:https://gocd_server:8154/go
     volumes:
       - ./godata_agent:/godata
       - ./go_agent:/home/go
+
   sonarqube:
-    image: registry.jala.info/devops/sonarqube:6.7.4-alpine
+    image: "registry.jala.info/devops/sonarqube:6.7.4-alpine"
     ports:
       - "9000:9000"
