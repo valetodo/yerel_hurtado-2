@@ -1,0 +1,52 @@
+format_version: 3
+pipelines:
+  fa-quickstart-ci:
+    group: Application
+    materials:
+      repo:
+        git: https://github.com/devops-at07/yerel_hurtado.git
+        branch: master
+        whitelist:
+            - quickstart/**/*
+    stages:
+      - Build:
+          jobs:
+            Building:
+              tasks:
+                - exec:
+                    working_directory: quickstart
+                    command: ./gradlew
+                    arguments:
+                      - clean
+                      - assemble
+              artifacts:
+                - build:
+                    source: quickstart/build/libs/*.jar
+                    destination: jar
+      - Test:
+          jobs:
+            Unit_Test:
+              tasks:
+                - exec:
+                    working_directory: quickstart
+                    command: ./gradlew
+                    arguments:
+                      - test
+              artifacts:
+                - build:
+                    source: quickstart/build/reports/tests/test/**/*
+                    destination: html
+                - test:
+                    source: quickstart/build/test-results/test/*.xml
+                    destination: xml
+              tabs:
+                unit_test: html/index.html
+      - Code_Quality:
+          jobs:
+            Sonarqube:
+              tasks:
+                - exec:
+                    working_directory: quickstart
+                    command: ./gradlew
+                    arguments:
+                      - sonarqube
