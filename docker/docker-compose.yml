@@ -1,18 +1,30 @@
 version: '3'
 services:
   jenkins_server:
-    image: "registry.jala.info/devops/jenkins/jenkins:2.107.3-alpine"
+    image: registry.jala.info/devops/jenkinsci/blueocean:1.5.0
     ports:
       - "8080:8080"
       - "5000:5000"
       - "50000:50000"
+    restart: always
     volumes:
       - ./jenkins:/var/jenkins_home
-jenkins_slave:
-  image: "registry.jala.info/devops/jenkins/jnlp-slave:3.27-1-alpine"
-  environment:
-    - JENKINS_URL=http://jenkins_server:50000
-    - JENKINS_AGENT_WORKDIR=/var/jenkins_home
-    - JENKINS_SECRET
-    - JENKINS_AGENT_NAME=slave2
-    
+  gocd_server:
+    image: "registry.jala.info/devops/gocd/gocd-server:v18.1.0"
+    ports:
+      - '8153:8153'
+      - '8154:8154'
+    volumes:
+      - ./godata_server:/godata
+      - ./go_server:/home/go
+  gocd_gent:
+    image: "registry.jala.info/devops/gocd/gocd-agent-alpine-3.7:v18.1.0"
+    environment:
+      - GO_SERVER_URL:https://gocd_server:8154/go
+    volumes:
+      - ./godata_agent:/godata
+      - ./go_agent:/home/go
+  sonarqube:
+    image: registry.jala.info/devops/sonarqube:6.7.4-alpine
+    ports:
+      - "9000:9000"

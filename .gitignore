@@ -17,6 +17,7 @@
 */build/
 /out/
 /logs/
+*/.vagrant/
 
 # Package Files #
 *.war
