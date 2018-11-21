@@ -50,3 +50,16 @@ pipelines:
                     command: ./gradlew
                     arguments:
                       - sonarqube
+            Owasp:
+              tasks:
+                - exec:
+                    working_directory: quickstart
+                    command: ./gradlew
+                    arguments:
+                      - dependencyCheckAnalyze
+              artifacts:
+                - build:
+                    source: quickstart/build/reports/**/*
+                    destination: html
+              tabs:
+                OWASP: html/dependency-check-report.html
