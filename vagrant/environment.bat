@@ -2,11 +2,11 @@
 set OS_AUTH_URL=http://10.28.3.240:5000/v3
 set OS_IDENTITY_API_VERSION=3
 set OS_TENANT_NAME=95779e42a104478daa70be04e14fa307
-set OS_PROJECT_NAME=fj_yerelhurtado_at07-desktop
+set OS_PROJECT_NAME=fj_yerelhurtado_at07-lab
 set OS_USERNAME=YerelHurtado
 set OS_PASSWORD=y3r3L123
 set OS_DOMAIN_NAME=fundacion-jala
-set OS_FLAVOR=f2.desktop.large
+set OS_FLAVOR=f4.lab.xlarge
 set OS_IMAGE=ubuntu-16.04-amd64-server_18062018
 set OS_KEY_PAIR_NAME=linux
 set OS_REGION_NAME=bootstack-jalasoft
