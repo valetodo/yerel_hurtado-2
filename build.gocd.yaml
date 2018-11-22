@@ -62,4 +62,68 @@ pipelines:
                     source: quickstart/build/reports/**/*
                     destination: html
               tabs:
+                OWASP: html/dependency-check-report.html             
+  yh-javawebapplication-ci:
+    group: Application
+    materials:
+      repo:
+        git: https://github.com/devops-at07/yerel_hurtado.git
+        branch: master
+        whitelist:
+            - JavaWebApplication/**/*
+    stages:
+      - Build:
+          jobs:
+            Building:
+              tasks:
+                - exec:
+                    working_directory: JavaWebApplication
+                    command: ./gradlew
+                    arguments:
+                      - clean
+                      - assemble
+              artifacts:
+                - build:
+                    source: JavaWebApplication/build/libs/*.jar
+                    destination: jar
+      - Test:
+          jobs:
+            Unit_Test:
+              tasks:
+                - exec:
+                    working_directory: JavaWebApplication
+                    command: ./gradlew
+                    arguments:
+                      - test
+              artifacts:
+                - build:
+                    source: JavaWebApplication/build/reports/tests/test/**/*
+                    destination: html
+                - test:
+                    source: JavaWebApplication/build/test-results/test/*.xml
+                    destination: xml
+              tabs:
+                unit_test: html/index.html
+      - Code_Quality:
+          jobs:
+            Sonarqube:
+              tasks:
+                - exec:
+                    working_directory: JavaWebApplication
+                    command: ./gradlew
+                    arguments:
+                      - sonarqube
+            Owasp:
+              tasks:
+                - exec:
+                    working_directory: JavaWebApplication
+                    command: ./gradlew
+                    arguments:
+                      - dependencyCheckAnalyze
+              artifacts:
+                - build:
+                    source: JavaWebApplication/build/reports/**/*
+                    destination: html
+              tabs:
                 OWASP: html/dependency-check-report.html
+                

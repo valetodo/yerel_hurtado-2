@@ -1,0 +1,44 @@
+plugins {
+  id 'org.hidetake.ssh' version '2.9.0'
+}
+
+ssh.settings {
+  knownHosts = allowAnyHosts
+}
+
+remotes {
+  dev_server {
+    host = '10.28.138.107'
+    user = 'ubuntu'
+    identity = file("C:/Users/Admin/Desktop/DevOps/yerel_hurtado-2/vagrant/linux (1).pem")
+  }
+  qa_server {
+    host = '10.28.115.178'
+    user = 'jenkins'
+  }
+}
+
+task copyWar {
+  doLast {
+    ssh.run {
+      session(remotes.dev_server) {
+        put from: 'build/libs/webapplication.war', into: '.'
+        execute 'sudo service tomcat8 stop'
+        execute "sudo rm -f /var/lib/tomcat/webapps/webapplication.war"
+        execute "sudo rm -f /var/lib/tomcat/webapps/webapplication"
+        execute 'sudo mv $HOME/webapplication.war /var/lib/tomcat8/webapps/'
+        execute 'sudo service tomcat8 start'
+      }
+    }
+  }
+}
+
+task reload {
+  doLast {
+    ssh.run {
+      session(remotes.dev_server) {
+        execute 'sudo service tomcat8 restart'
+      }
+    }
+  }
+}
