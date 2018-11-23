@@ -130,11 +130,11 @@ pipelines:
           jobs:
             deploy_gradle: 
               tasks:
-                -exec:
-                  working_directory: JavaWebApplication
-                  command: ./gradlew
-                  arguments:
-                      - b
-                      - deploy.gradle
-                      - copyWar
+                - exec:
+                   working_directory: JavaWebApplication
+                   command: ./gradlew
+                   arguments:
+                    - b
+                    - deploy.gradle
+                    - copyWar
                 
