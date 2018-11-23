@@ -104,7 +104,7 @@ pipelines:
                     destination: xml
               tabs:
                 unit_test: html/index.html
-      - Code_Quality:
+      - Security:
           jobs:
             Sonarqube:
               tasks:
@@ -134,7 +134,7 @@ pipelines:
                    working_directory: JavaWebApplication
                    command: ./gradlew
                    arguments:
-                    - b
+                    - -b
                     - deploy.gradle
                     - copyWar
                 
