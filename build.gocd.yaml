@@ -84,8 +84,8 @@ pipelines:
                       - assemble
               artifacts:
                 - build:
-                    source: JavaWebApplication/build/libs/*.jar
-                    destination: jar
+                    source: JavaWebApplication/build/libs/*.war
+                    destination: war
       - Test:
           jobs:
             Unit_Test:
