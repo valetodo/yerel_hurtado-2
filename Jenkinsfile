@@ -35,7 +35,7 @@ pipeline {
         }
         stage ('Security_webApplication') {
             steps {
-                sh './JavaWebApplication/gradlew sonarqube'
+                sh './JavaWebApplication/gradlew -p sonarqube'
                 sh './JavaWebApplication/gradlew -p dependencyCheckAnalyze'
                 archiveArtifacts artifacts: '**/repos/*.html'
             }
