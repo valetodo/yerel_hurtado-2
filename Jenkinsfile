@@ -30,13 +30,13 @@ pipeline {
         stage ('Testing_webApplication') {
             steps {
                 sh './JavaWebApplication/gradlew test -p JavaWebApplication'
-                junit '**/reports/tests/test/*.html'
+                archiveArtifacts artifacts: '**/reports/tests/test/*.html'
             }
         }
         stage ('Security_webApplication') {
             steps {
                 sh './JavaWebApplication/gradlew sonarqube'
-                sh './JavaWebApplication/gradlew dependencyCheckAnalyze'
+                sh './JavaWebApplication/gradlew -p dependencyCheckAnalyze'
                 archiveArtifacts artifacts: '**/repos/*.html'
             }
         }
