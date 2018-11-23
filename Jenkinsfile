@@ -22,19 +22,27 @@ pipeline {
 
         stage ('Build') {
             steps {
-                sh './JavaWebApplication/gradlew clean assemble -p quickstart'
+                sh './JavaWebApplication/gradlew clean assemble -p JavaWebApplication'
+                sh './JavaWebApplication/gradlew uploadArchives -p JavaWebApplication'
+                archiveArtifacts artifacts: '**/repos/*.war'
             }
         }
         stage ('Testing') {
             steps {
-                sh './JavaWebApplication/gradlew test -p quickstart'
-                junit '**/test-results/test/*.xml'
+                sh './JavaWebApplication/gradlew test -p JavaWebApplication'
+                junit '**/reports/tests/test/*.html'
             }
         }
-        stage ('Publish') {
+        stage ('Security') {
             steps {
-                sh './JavaWebApplication/gradlew uploadArchives -p quickstart'
-                archiveArtifacts artifacts: '**/repos/*.jar'
+                sh './JavaWebApplication/gradlew sonarqube'
+                sh './JavaWebApplication/gradlew dependencyCheckAnalyze'
+                archiveArtifacts artifacts: '**/repos/*.html'
+            }
+        }
+        stage ('Deploy') {
+            steps {
+                sh './JavaWebApplication/gradlew -b deploy.gradle copyWar'
             }
         } 
     }
