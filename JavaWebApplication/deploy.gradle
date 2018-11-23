@@ -10,7 +10,7 @@ remotes {
   dev_server {
     host = '10.28.138.107'
     user = 'ubuntu'
-    identity = file("C:/Users/Admin/Desktop/DevOps/yerel_hurtado-2/vagrant/linux (1).pem")
+    identity = file("./linux.pem")
   }
   qa_server {
     host = '10.28.115.178'
